@@ -68,6 +68,18 @@ pc1 <- ggplot(UT_events, aes(x = Date, y = RSVP, color = State))
   #geom_text_repel(aes(label = rownames())) +
   labs(title="Meetup Trends by Big Data Groups in Utah")
 
+Meetup_Past_Events %>%
+  mutate(is_utah = factor(ifelse(State == "UT", 1, 0))) %>%
+  ggplot(aes(Date, RSVP, color = State)) +
+  #geom_point(alpha = .01) +
+  geom_line(aes(alpha = is_utah), stat = "smooth", method = "lm", se = F) +
+  coord_cartesian(ylim = c(0,50)) +
+  scale_alpha_discrete(range = c(0.5, 1)) +
+  scale_color_brewer(palette = "Accent") +
+  labs(title = "Utah Meetups are growing faster than other states",
+       y = "Number of RSVPs for each Meetup") +
+  theme_dark()
+ 
 
 
 
